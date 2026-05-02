@@ -1,0 +1,9 @@
+aside, main {
+    padding: var(--space-4);
+    height: 100vh;
+    overflow: auto;
+}
+
+aside {
+    background: var(--gray-6);
+}
