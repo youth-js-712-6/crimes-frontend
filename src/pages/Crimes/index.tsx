@@ -1,4 +1,4 @@
-import { Flex, Table, TextField } from "@radix-ui/themes"
+import { Button, Flex, Table, TextField } from "@radix-ui/themes"
 import axios from "axios"
 import { useEffect, useState } from "react"
 
@@ -11,6 +11,8 @@ type Crime = {
 
 const Crimes = () => {
     const [crimes, setCrimes] = useState<Crime[]>([])
+    
+    const [page, setPage] = useState(1)
 
     const [city, setCity] = useState('')
     const [type, setType] = useState('')
@@ -18,6 +20,7 @@ const Crimes = () => {
     const getCrimes = async () => {
         const crimes = await axios.get('https://crimes-api.pamplona.io/crimes', {
             params: {
+                page: page,
                 city: city,
                 type: type
             }
@@ -27,8 +30,12 @@ const Crimes = () => {
 
     useEffect(() => {
         getCrimes()
+    }, [page, city, type])
+
+    useEffect(() => {
+        setPage(1)
     }, [city, type])
-    
+
     return (
         <>
             <h1>Crimes</h1>
@@ -64,6 +71,18 @@ const Crimes = () => {
                     ))}
                 </Table.Body>
             </Table.Root>
+
+            <Flex gap={'2'} mt={'2'}>
+                <Button onClick={() => setPage(page - 1)} disabled={page === 1}>
+                    Anterior
+                </Button>
+
+                {page}
+
+                <Button onClick={() => setPage(page + 1)} disabled={crimes.length === 0}>
+                    Próxima
+                </Button>
+            </Flex>
         </>
     )
 }
