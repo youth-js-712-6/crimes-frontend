@@ -1,6 +1,7 @@
 import { Button, Flex, Table, TextField } from "@radix-ui/themes";
 import axios from "axios"
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { NotesContext } from "../../contexts/NotesContext";
 
 // "id": 25400,
 // "name": "Brandon Montaluo",
@@ -19,6 +20,8 @@ type Pessoa = {
 }
 
 const Pessoas = () => {
+    const { notes, addNote } = useContext(NotesContext) 
+
     const [pessoas, setPessoas] = useState<Pessoa[]>([])
 
     const [page, setPage] = useState(1)
@@ -35,6 +38,11 @@ const Pessoas = () => {
             }
         })
         setPessoas(response.data);
+    }
+
+    const getNotes = (id: number) => {
+        const foundNote = notes.filter((note) => note.id === id)
+        return foundNote
     }
 
     useEffect(function recuperarNovasPessoas() {
@@ -79,7 +87,13 @@ const Pessoas = () => {
                             <Table.Cell>{pessoa.license_id}</Table.Cell>
                             <Table.Cell>{pessoa.address_street_name}</Table.Cell>
                             <Table.Cell>{pessoa.address_number}</Table.Cell>
-                        </Table.Row>   
+                            <Table.Cell>{getNotes(pessoa.id).map((note) => note.note)}</Table.Cell>
+                            <Table.Cell>
+                                <Button onClick={() => addNote(pessoa.id, 'pessoa')}>
+                                    Nova Anotação
+                                </Button>
+                            </Table.Cell>
+                        </Table.Row>
                     ))}
                 </Table.Body>
             </Table.Root>

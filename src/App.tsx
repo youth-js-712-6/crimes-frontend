@@ -1,4 +1,3 @@
-import { Theme } from "@radix-ui/themes"
 import { BrowserRouter, Route, Routes } from "react-router"
 
 import '@radix-ui/themes/styles.css'
@@ -16,7 +15,6 @@ const App = () => {
   // como person_id para entrevistas ou ssn para renda
 
   return (
-    <Theme>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Layout />}>
@@ -29,7 +27,6 @@ const App = () => {
           </Route>
         </Routes>
       </BrowserRouter>
-    </Theme>
   )
 }
 

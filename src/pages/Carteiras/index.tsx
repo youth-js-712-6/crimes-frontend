@@ -1,6 +1,7 @@
 import { Table } from "@radix-ui/themes";
 import axios from "axios"
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { NotesContext } from "../../contexts/NotesContext";
 
 // "id":100280,
 // "age":72,
